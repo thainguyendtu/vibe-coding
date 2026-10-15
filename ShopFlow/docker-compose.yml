@@ -1,0 +1,62 @@
+services:
+#  postgres:
+#    image: postgres:17
+#    container_name: shopflow-postgres
+#    restart: unless-stopped
+#
+#    environment:
+#      POSTGRES_DB: shopflow
+#      POSTGRES_USER: ${DB_USERNAME:-postgres}
+#      POSTGRES_PASSWORD: ${DB_PASSWORD:-123456}
+#
+#    ports:
+#      - "5432:5432"
+#
+#    volumes:
+#      - shopflow-postgres-data:/var/lib/postgresql/data
+#
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+#      interval: 5s
+#      timeout: 5s
+#      retries: 10
+#
+#  app:
+#    build: .
+#    container_name: shopflow-app
+#    restart: unless-stopped
+#    environment:
+#      SPRING_PROFILES_ACTIVE: docker
+#      DB_USERNAME: ${DB_USERNAME:-postgres}
+#      DB_PASSWORD: ${DB_PASSWORD:-123456}
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
+#
+#  keycloak:
+#    image: quay.io/keycloak/keycloak:24.0.1
+#    container_name: shopflow-keycloak
+#    command: start-dev
+#    environment:
+#      KC_DB: postgres
+#      KC_DB_URL: jdbc:postgresql://shopflow-postgres:5432/shopflow
+#      KC_DB_USERNAME: ${DB_USERNAME:-postgres}
+#      KC_DB_PASSWORD: ${DB_PASSWORD:-123456}
+#      KEYCLOAK_ADMIN: admin
+#      KEYCLOAK_ADMIN_PASSWORD: admin
+#    ports:
+#      - "8081:8080"
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
+
+  redis:
+      image: redis:7
+      container_name: redis
+      ports:
+        - "6379:6379"
+
+volumes:
+  shopflow-postgres-data:

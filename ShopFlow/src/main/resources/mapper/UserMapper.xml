@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fpt.shopflow.user.mapper.UserMapper">
+
+    <select id="getAllUser" resultType="com.fpt.shopflow.user.domain.User">
+        SELECT
+            ID,
+            USERNAME,
+            EMAIL,
+            PASSWORD,
+            FIRST_NAME,
+            LAST_NAME,
+            PHONE_NUMBER,
+            DATE_OF_BIRTH,
+            GENDER,
+            AVATAR_URL,
+            ROLE,
+            STATUS,
+            LAST_LOGIN_AT,
+            CREATED_AT,
+            UPDATED_AT
+        FROM
+            USERS
+    </select>
+
+    <select id="getUserByEmail" parameterType="java.lang.String" resultType="com.fpt.shopflow.user.domain.User">
+        SELECT
+            ID,
+            USERNAME,
+            EMAIL,
+            PASSWORD,
+            FIRST_NAME,
+            LAST_NAME,
+            PHONE_NUMBER,
+            DATE_OF_BIRTH,
+            GENDER,
+            AVATAR_URL,
+            ROLE,
+            STATUS,
+            LAST_LOGIN_AT,
+            CREATED_AT,
+            UPDATED_AT
+        FROM
+            USERS
+        WHERE
+            EMAIL = #{email}
+            AND <include refid="statusIsActive"/>
+    </select>
+
+    <select id="isExistedUsername" parameterType="java.lang.String" resultType="boolean">
+        SELECT
+            COUNT(USERNAME) > 0 AS is_available
+        FROM
+            USERS
+        WHERE
+            USERNAME = #{username}
+            AND <include refid="statusIsActive"/>
+    </select>
+
+    <select id="isExistedEmail" parameterType="java.lang.String" resultType="boolean">
+        SELECT
+            COUNT(EMAIL) > 0 AS is_available
+        FROM
+            USERS
+        WHERE
+            EMAIL = #{email}
+            AND <include refid="statusIsActive"/>
+    </select>
+
+    <select id="insertUser" parameterType="com.fpt.shopflow.user.domain.User">
+        INSERT INTO USERS (
+            USERNAME,
+            EMAIL,
+            PASSWORD,
+            FIRST_NAME,
+            LAST_NAME,
+            PHONE_NUMBER,
+            DATE_OF_BIRTH,
+            GENDER,
+            AVATAR_URL,
+            ROLE
+        ) VALUES (
+            #{username},
+            #{email},
+            #{password},
+            #{firstName},
+            #{lastName},
+            #{phoneNumber},
+            #{dateOfBirth},
+            #{gender},
+            #{avatarUrl},
+            #{role}
+        )
+    </select>
+
+    <sql id="statusIsActive">
+        STATUS = 'ACTIVE'
+    </sql>
+
+</mapper>
